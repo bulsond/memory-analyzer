@@ -32,6 +32,7 @@ func TBytes(n uint64) Bytes {
 	return Bytes(n) * TB
 }
 
+// String отображение объема с указанием единиц размерности
 func (b Bytes) String() string {
 	if b == 0 {
 		return "0 B"

@@ -1,8 +1,11 @@
 package display
 
 import (
+	"fmt"
 	"path/filepath"
 	"strings"
+
+	"github.com/bulsond/memory-analyzer/info"
 )
 
 // GetShortProcessName форматирование названия процесса
@@ -36,6 +39,21 @@ func GetShortProcessName(fullName string) string {
 }
 
 // FormatTable формирование таблицы процессов
-// func FormatTable(processes []ProcessInfo) string {
-// 	return ""
-// }
+func FormatTable(processes []info.ProcessInfo) string {
+	var sb strings.Builder
+	// Заголовок
+	sb.WriteString("PID      NAME            MEMORY\n")
+	// Разделитель
+	sb.WriteString("--------------------------------\n")
+
+	// Вывод процессов
+	for _, proc := range processes {
+		shortName := GetShortProcessName(string(proc.Name))
+		memStr := proc.MemoryUsage.String()
+		// Форматирование: PID (8, лево), Name (15), Memory (10)
+		line := fmt.Sprintf("%-8d %-15s %10s\n", proc.PID, shortName, memStr)
+		sb.WriteString(line)
+	}
+
+	return sb.String()
+}
