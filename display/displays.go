@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// GetShortProcessName форматирование названия процесса
 func GetShortProcessName(fullName string) string {
 	// 1. Извлекаем базовое имя из полного пути
 	base := filepath.Base(fullName)
@@ -12,7 +13,6 @@ func GetShortProcessName(fullName string) string {
 	// 2. Удаляем стандартные суффиксы
 	suffixes := [4]string{"-helper (Renderer)", " Helper (Renderer)", " Helper", ".app"}
 	for _, suffix := range suffixes {
-		// base = strings.TrimSuffix(base, suffix)
 		if idx := strings.Index(base, suffix); idx != -1 {
 			base = base[:idx]
 		}
@@ -34,3 +34,8 @@ func GetShortProcessName(fullName string) string {
 
 	return base
 }
+
+// FormatTable формирование таблицы процессов
+// func FormatTable(processes []ProcessInfo) string {
+// 	return ""
+// }
