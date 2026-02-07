@@ -1,2 +1,2 @@
 # memory-analyzer
-Учебный проект по Golang
+Учебный проект с [сайта](https://praxiscode.io/)
