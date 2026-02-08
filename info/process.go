@@ -5,8 +5,18 @@ import "errors"
 // PID идентификатор процесса в операционной системе.
 type PID int
 
+// Int обратное преобразование
+func (p PID) Int() int {
+	return int(p)
+}
+
 // ProcessName содержит имя исполняемого файла или отображаемое имя процесса.
 type ProcessName string
+
+// String обратное преобразование
+func (p ProcessName) String() string {
+	return string(p)
+}
 
 // ProcessInfo представляет информацию о запущенном процессе.
 type ProcessInfo struct {

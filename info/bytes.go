@@ -32,6 +32,11 @@ func TBytes(n uint64) Bytes {
 	return Bytes(n) * TB
 }
 
+// Uint64 обратное преобразование
+func (b Bytes) Uint64() uint64 {
+	return uint64(b)
+}
+
 // String отображение объема с указанием единиц размерности
 func (b Bytes) String() string {
 	switch {
