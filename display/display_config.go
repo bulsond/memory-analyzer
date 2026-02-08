@@ -9,9 +9,24 @@ import (
 // Используется для управления частотой обновления интерфейса или данных.
 type Interval time.Duration
 
+// Duration преобразование в time.Duration
+func (i Interval) Duration() time.Duration {
+	return time.Duration(i)
+}
+
+// String реализация fmt.Stringer
+func (i Interval) String() string {
+	return i.Duration().String()
+}
+
 // CountProcesses определяет количество процессов, которые следует отображать.
 // Используется для ограничения числа выводимых процессов в топ-списке.
 type CountProcesses int
+
+// Int преобразование в int
+func (c CountProcesses) Int() int {
+	return int(c)
+}
 
 // DisplayConfig содержит конфигурацию отображения в программе.
 // Управляет интервалом обновления и количеством отображаемых процессов.

@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"os/signal"
-	"syscall"
+	"time"
+
+	"github.com/bulsond/memory-analyzer/display"
 )
 
 func main() {
@@ -83,19 +83,49 @@ func main() {
 
 	//====================================================
 	// Создаём канал для сигналов
-	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
+	// sigChan := make(chan os.Signal, 1)
+	// signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
 
-	fmt.Println("Program is running. Press Ctrl+C to exit...")
+	// fmt.Println("Program is running. Press Ctrl+C to exit...")
 
 	// Ждём сигнал в отдельной горутине
-	go func() {
-		sig := <-sigChan
-		fmt.Printf("\nReceived signal: %v\n", sig)
-		fmt.Println("Shutting down...")
-		os.Exit(0)
-	}()
+	// go func() {
+	// 	sig := <-sigChan
+	// 	fmt.Printf("\nReceived signal: %v\n", sig)
+	// 	fmt.Println("Shutting down...")
+	// 	os.Exit(0)
+	// }()
 
 	// Имитация работы программы
-	select {}
+	// select {}
+	//========================================================
+
+	// Создаём конфигурацию
+	config, err := display.NewDisplayConfig(3, 10)
+	if err != nil {
+		panic(err)
+	}
+
+	// Создаём и настраиваем ticker
+	ticker := time.NewTicker(config.UpdateInterval.Duration())
+	defer ticker.Stop()
+
+	fmt.Printf("Starting updates every %v\n", config.UpdateInterval)
+
+	// Демонстрационный цикл
+	count := 0
+	for {
+		select {
+		case <-ticker.C:
+			count++
+			fmt.Printf("Update #%d at %v\n",
+				count,
+				time.Now().Format("15:04:05"))
+
+			if count >= 3 {
+				fmt.Println("Demo complete")
+				return
+			}
+		}
+	}
 }
