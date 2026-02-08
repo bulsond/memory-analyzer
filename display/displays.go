@@ -3,6 +3,7 @@ package display
 import (
 	"fmt"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 
@@ -59,6 +60,7 @@ func FormatTable(processes []info.ProcessInfo) string {
 	return sb.String()
 }
 
+// DisplayDashboard отображение информационной панели
 func DisplayDashboard(
 	stats info.SystemMemoryInfo,
 	processes []info.ProcessInfo,
@@ -78,6 +80,7 @@ func DisplayDashboard(
 	fmt.Println("Top Memory Processes:")
 
 	// О процессах
+	processes = takeTopProcesses(processes, int(config.TopProcesses))
 	fmt.Println(FormatTable(processes))
 
 	// Временная метка
@@ -86,4 +89,18 @@ func DisplayDashboard(
 
 	// Подсказка о выходе
 	fmt.Println("Press Ctrl+C to exit")
+}
+
+func takeTopProcesses(processes []info.ProcessInfo, count int) []info.ProcessInfo {
+	// Сортируем по убыванию потребления памяти
+	sort.Slice(processes, func(i, j int) bool {
+		return processes[i].MemoryUsage > processes[j].MemoryUsage
+	})
+
+	// Топчик
+	if count < len(processes) {
+		return processes[:count]
+	} else {
+		return processes
+	}
 }
