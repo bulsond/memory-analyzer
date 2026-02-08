@@ -34,25 +34,16 @@ func TBytes(n uint64) Bytes {
 
 // String отображение объема с указанием единиц размерности
 func (b Bytes) String() string {
-	if b == 0 {
-		return "0 B"
+	switch {
+	case b >= TB:
+		return fmt.Sprintf("%.2f GB", float64(b)/float64(TB))
+	case b >= GB:
+		return fmt.Sprintf("%.2f GB", float64(b)/float64(GB))
+	case b >= MB:
+		return fmt.Sprintf("%.2f MB", float64(b)/float64(MB))
+	case b >= KB:
+		return fmt.Sprintf("%.2f KB", float64(b)/float64(KB))
+	default:
+		return fmt.Sprintf("%d B", b)
 	}
-
-	units := []string{"TB", "GB", "MB", "KB"}
-	sizes := []Bytes{TB, GB, MB, KB}
-	for i, size := range sizes {
-		if b < size {
-			continue
-		}
-		val := float64(b) / float64(size)
-		if val >= 100 {
-			return fmt.Sprintf("%.0f %s", val, units[i])
-		}
-		if val >= 10 {
-			return fmt.Sprintf("%.1f %s", val, units[i])
-		}
-		return fmt.Sprintf("%.2f %s", val, units[i])
-	}
-
-	return fmt.Sprintf("%d B", b)
 }
