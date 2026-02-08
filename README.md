@@ -33,3 +33,4 @@
 
 
 ## 🎮 Пример использования
+<img width="414" height="646" alt="Screenshot from 2026-02-08 19-38-20" src="https://github.com/user-attachments/assets/e1f1b5c1-9514-40db-b537-fdc03cc96f22" />
