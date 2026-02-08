@@ -1,13 +1,12 @@
 package main
 
 import (
-	"fmt"
-
+	"github.com/bulsond/memory-analyzer/display"
 	"github.com/bulsond/memory-analyzer/info"
 )
 
 func main() {
-	fmt.Println("Привет")
+	// fmt.Println("Привет")
 
 	// Создаём тестовый набор процессов
 	// processes := []info.ProcessInfo{
@@ -42,5 +41,26 @@ func main() {
 	}
 
 	// Форматируем и выводим статистику
-	fmt.Print(sysInfo)
+	// fmt.Print(sysInfo)
+
+	processes := []info.ProcessInfo{
+		{
+			PID:         1234,
+			Name:        "chrome",
+			MemoryUsage: 1024 * 1024 * 1024, // 1 GB
+		},
+		{
+			PID:         5678,
+			Name:        "vscode",
+			MemoryUsage: 512 * 1024 * 1024, // 512 MB
+		},
+	}
+
+	config, err := display.NewDisplayConfig(3, 10)
+	if err != nil {
+		panic(err)
+	}
+
+	//Отображаем информационную панель
+	display.DisplayDashboard(sysInfo, processes, config)
 }

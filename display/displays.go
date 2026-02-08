@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/bulsond/memory-analyzer/info"
 )
@@ -56,4 +57,33 @@ func FormatTable(processes []info.ProcessInfo) string {
 	}
 
 	return sb.String()
+}
+
+func DisplayDashboard(
+	stats info.SystemMemoryInfo,
+	processes []info.ProcessInfo,
+	config DisplayConfig) {
+	// Очистка экрана (работает на Unix/Linux/macOS и Windows)
+	fmt.Print("\033[2J\033[H")
+
+	// Заголовок
+	fmt.Println()
+	fmt.Println("=== Memory Analyzer ===")
+	fmt.Println()
+
+	// О памяти
+	fmt.Println(stats)
+
+	// Подзаголовок
+	fmt.Println("Top Memory Processes:")
+
+	// О процессах
+	fmt.Println(FormatTable(processes))
+
+	// Временная метка
+	fmt.Printf("Updated: %s\n",
+		time.Now().Format("2006-01-02 15:04:05"))
+
+	// Подсказка о выходе
+	fmt.Println("Press Ctrl+C to exit")
 }
